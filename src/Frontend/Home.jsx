@@ -1,8 +1,9 @@
 // Home.jsx
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import Event from "./Event";
 import CountdownTimer from "./CountdownTimer";
 
 const VideoBackground = styled.video`
@@ -21,8 +22,10 @@ const PageWrapper = styled.div`
   z-index: 1;
   width: 100vw;
   height: 100vh;
-  overflow-y: auto;
+  overflow-y: scroll;
   overflow-x: hidden;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -40,12 +43,14 @@ const Section = styled(motion.section)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  scroll-snap-align: start;
   box-sizing: border-box;
-  padding: 0 20px;
-  gap: 10px;
+  padding: 0 15px;
+  gap: 4px;
 
   @media (max-width: 768px) {
-    padding: 0 10px;
+    padding: 0 8px;
+    gap: 3px;
   }
 `;
 
@@ -69,10 +74,36 @@ const HeroSubtitle = styled(motion.h2)`
   margin: 0;
 `;
 
+const InfoBox = styled(motion.div)`
+  background: rgba(0, 0, 0, 0.55);
+  padding: 10px 20px;
+  border-radius: 12px;
+  backdrop-filter: blur(6px);
+  margin-bottom: 10px;
+  text-align: center;
+  max-width: 280px;
+  color: #ffffff;
+
+  p {
+    margin: 3px 0;
+    font-size: 0.95rem;
+  }
+
+  a {
+    color: #ffe600;
+    text-decoration: underline;
+    font-weight: bold;
+
+    &:hover {
+      color: #ff4e50;
+    }
+  }
+`;
+
 const HeroButton = styled(motion.button)`
-  padding: 12px 25px;
-  margin-top: 5px;
-  margin-bottom: 60px;
+  padding: 10px 20px;
+  margin-top: 2px;
+  margin-bottom: 30px;
   border: none;
   border-radius: 6px;
   background: linear-gradient(45deg, #ff4e50, #f9d423);
@@ -88,8 +119,8 @@ const HeroButton = styled(motion.button)`
   }
 
   @media (max-width: 768px) {
-    padding: 10px 20px;
-    font-size: 0.9rem;
+    padding: 8px 16px;
+    font-size: 0.85rem;
   }
 `;
 
@@ -119,36 +150,40 @@ const AnniversaryLogo = styled(motion.img)`
 
 export default function Home() {
   const navigate = useNavigate();
+  const heroRef = useRef();
+  const eventRef = useRef();
+  const sectionRefs = [heroRef, eventRef];
 
-  const today = new Date().toLocaleDateString("en-GB", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
+  const scrollToNext = () => {
+    const wrapper = document.documentElement;
+    const viewportHeight = window.innerHeight;
+    const currentSection = Math.floor(wrapper.scrollTop / viewportHeight);
+    const nextSection = Math.min(currentSection + 1, sectionRefs.length - 1);
+    sectionRefs[nextSection].current.scrollIntoView({ behavior: "smooth" });
+  };
 
-  // 🔹 Registration Slots State
-  const [registrations, setRegistrations] = useState(0);
-  const totalSlots = 15;
-
-  const handleRegister = () => {
-    if (registrations < totalSlots) {
-      setRegistrations(registrations + 1);
-      navigate("/Register"); // keep existing navigation
-    }
+  const sectionVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0, transition: { duration: 1 } },
   };
 
   return (
     <>
-      {/* Background Video */}
       <VideoBackground autoPlay loop muted playsInline preload="auto" poster="/Poster.png">
         <source src="/BackgroundVideo.mp4" type="video/mp4" />
       </VideoBackground>
 
-      {/* Page Content */}
       <PageWrapper>
         {/* Hero Section */}
-        <Section>
-          {/* Header */}
+        <Section
+          ref={heroRef}
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: {},
+            visible: { transition: { staggerChildren: 0.2 } },
+          }}
+        >
           <motion.div
             style={{
               display: "flex",
@@ -156,34 +191,34 @@ export default function Home() {
               alignItems: "center",
               justifyContent: "center",
               gap: "2px",
-              marginTop: "40px",
+              marginTop: "20px",
               textAlign: "center",
             }}
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
               <GtecLogo src="/gtec.jpeg" alt="GTEC Logo" whileHover={{ scale: 1.05 }} />
               <HeroTitle>Ganadipathy Tulsi's Jain Engineering College</HeroTitle>
             </div>
             <h6
               style={{
                 color: "#ffffff",
-                fontSize: "0.75rem",
+                fontSize: "0.7rem",
                 margin: "0px",
-                marginLeft: "70px",
-                marginTop: "-10px",
+                marginLeft: "50px",
+                marginTop: "3px",
                 fontFamily: "Times New Roman, Times, serif",
               }}
-            ><br/>
+            >
               Chittoor Cuddalore Road, Kaniyambadi Vellore - 632102
             </h6>
             <h6
               style={{
-                fontSize: "1rem",
+                fontSize: "0.9rem",
                 lineHeight: 1,
-                margin: "15px 0",
+                margin: "10px 0",
                 fontFamily: "Times New Roman, Times, serif",
                 textAlign: "center",
                 color: "#ffe600",
@@ -194,13 +229,12 @@ export default function Home() {
             </h6>
           </motion.div>
 
-          {/* Subtitle */}
           <motion.div
             style={{
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              gap: "5px",
+              gap: "4px",
               flexWrap: "wrap",
               margin: "0px auto",
               textAlign: "center",
@@ -209,20 +243,19 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
           >
-            <HeroSubtitle style={{ fontSize: "1.5rem", margin: "0px" }}>
+            <HeroSubtitle style={{ fontSize: "1.3rem", margin: "0px" }}>
               National Level <br /> Technical Symposium
             </HeroSubtitle>
             <AnniversaryLogo src="/25year.png" alt="25 Years Celebration" whileHover={{ scale: 1.05 }} />
           </motion.div>
 
-          {/* Event Title */}
           <HeroSubtitle
             style={{
-              fontSize: "3rem",
+              fontSize: "2.5rem",
               background: "linear-gradient(45deg, #f9d423, #ff4e50)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
-              margin: "0px auto 2px auto",
+              margin: "0px auto 4px auto",
               lineHeight: 1,
             }}
           >
@@ -232,121 +265,54 @@ export default function Home() {
           <h6
             style={{
               color: "white",
-              fontSize: "0.9rem",
-              lineHeight: 1.1,
-              margin: "0px 0 -30px 0",
+              fontSize: "0.85rem",
+              lineHeight: 1,
+              margin: "0px 0 6px 0",
               fontFamily: "Times New Roman, Times, serif",
               textAlign: "center",
             }}
           >
             A Summit of IT, AI & Business System
           </h6>
-{/* Paper Presentation - Modern Designer Style */}
-<motion.div
-  style={{
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    gap: "14px",
-    marginTop: "40px",
-    textAlign: "center",
-    padding: "0 10px",
-  }}
-  initial={{ opacity: 0, y: 20 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 1 }}
->
-  {/* Elegant Heading */}
-  <h3
-    style={{
-      margin: 0,
-      fontSize: "2rem",
-      fontWeight: "900",
-      color: "yellow",
-      letterSpacing: "1px",
-      textTransform: "uppercase",
-    }}
-  >
-    📄 Paperenza
-  </h3>
 
- {/* Date & Time - Pill Style */}
-<div style={{ display: "flex", gap: "12px", flexWrap: "wrap", justifyContent: "center" }}>
-  <span
-    style={{
-      padding: "5px 12px",
-      borderRadius: "20px",
-      background: "rgba(255, 255, 255, 0.1)",
-      color: "#ffe600",
-      fontWeight: "600",
-      fontSize: "0.95rem",
-      transition: "0.3s",
-    }}
-  >
-    📅 {today}
-  </span>
-  <span
-    style={{
-      padding: "5px 12px",
-      borderRadius: "20px",
-      background: "rgba(255, 255, 255, 0.1)",
-      color: "#00d4ff",
-      fontWeight: "600",
-      fontSize: "0.95rem",
-      transition: "0.3s",
-    }}
-  >
-    ⏰ 3:00 PM
-  </span>
-</div>
+          <HeroSubtitle
+            style={{
+              fontSize: "1.8rem",
+              color: "#ffd700",
+              textShadow: `
+      0 0 6px #ffae00,
+      0 0 12px #ffd700,
+      0 0 20px #ffea70
+    `,
+              margin: "4px auto",
+              lineHeight: 1.1,
+            }}
+          >
+            Technical Quiz & Photography
+          </HeroSubtitle>
 
-</motion.div>
-
-
-          {/* Countdown */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 3 }}>
             <CountdownTimer />
           </motion.div>
 
-          {/* Slots Info */}
-          <motion.div
-            style={{
-              marginTop: "15px",
-              fontSize: "1rem",
-              fontWeight: "bold",
-              color: "#ff4e50",
-              textShadow: "0 0 6px #ff4e50",
-              textAlign: "center",
-            }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-          >
-            ⚠️ Only first 15 registrations allowed!
-          </motion.div>
+          <InfoBox>
+            <p>📅 Date: 06th October 2025</p>
+            <p>⏰ Time: 3:00 PM </p>
+          </InfoBox>
 
-          {/* Register Button */}
-          <motion.div
-            style={{
-              display: "flex",
-              gap: "15px",
-              marginTop: "10px",
-              flexWrap: "wrap",
-              justifyContent: "center",
-            }}
-          >
-            <HeroButton
-              onClick={handleRegister}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              disabled={registrations >= totalSlots}
-              style={{
-                opacity: registrations >= totalSlots ? 0.6 : 1,
-                cursor: registrations >= totalSlots ? "not-allowed" : "pointer",
-              }}
-            >
-              {registrations >= totalSlots ? "Slots Full" : "📝 Register Now"}
+          <motion.div style={{ display: "flex", gap: "10px", marginTop: "8px", flexWrap: "wrap", justifyContent: "center" }}>
+            <HeroButton onClick={scrollToNext} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              Explore Events →
+            </HeroButton>
+            <HeroButton onClick={() => navigate("/Register")} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              Register
             </HeroButton>
           </motion.div>
+        </Section>
+
+        {/* Event Section */}
+        <Section ref={eventRef} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} variants={sectionVariants}>
+          <Event />
         </Section>
       </PageWrapper>
     </>

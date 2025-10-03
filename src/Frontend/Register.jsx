@@ -1,7 +1,7 @@
 // RegistrationPage.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom"; // 👈 import useLocation
 
 // ---------- Styled Components ----------
 const VideoBackground = styled.video`
@@ -46,7 +46,6 @@ const Button = styled.button`
   color: #fff; font-weight: bold; cursor: pointer;
   width: 100%; margin-bottom: 15px; transition: 0.3s;
   &:hover { transform: scale(1.05); background: linear-gradient(45deg, #f9d423, #ff4e50); }
-  &:disabled { opacity: 0.6; cursor: not-allowed; }
 `;
 
 const BackButton = styled.button`
@@ -66,31 +65,18 @@ const CongratsTitle = styled.h1`color: yellow; font-size: 2rem; margin-bottom: 1
 const Eventname = styled.h1`color: yellow; font-size: 1.2rem; margin-bottom: 15px; font-family: "Snap ITC", cursive, sans-serif;`;
 const CongratsText = styled.p`color: white; font-size: 1.2rem;`;
 
-const ProgressBar = styled.div`width: 100%; height: 12px; border-radius: 6px; background: #333; overflow: hidden; margin-bottom: 15px;`;
-const ProgressFill = styled.div`
-  height: 100%; width: ${(props) => props.percentage}%;
-  background: #2cc0d6; transition: width 0.4s;
-`;
-
 // ---------- Component ----------
 export default function RegistrationPage() {
   const navigate = useNavigate();
-  const totalSlots = 15;
-  const GAS_URL = "https://script.google.com/macros/s/AKfycbwe2QMe7nfbuBTBOo6rpbGteyTb8arzyZytEMjSyT6GSFSvkAw_zwww2wg10Brv6dvJDw/exec"; // keep your GAS URL here
+  const location = useLocation();  
+  const eventName = location.state?.eventName || "";  // 👈 get event from EventsPage
 
-  const [slotsFilled, setSlotsFilled] = useState(0);
+  const GAS_URL = "https://script.google.com/macros/s/AKfycbzxqHJfae-G6T-Qq0i1egMxcqBpReHYEmkbDdbSESS4S38nRC89INC5bZfrfeoLwpgf6Q/exec";
+
   const [formData, setFormData] = useState({
     name: "", email: "", gender: "", degree: "", branch: "", year: "", phone: "",
   });
   const [submitted, setSubmitted] = useState(false);
-
-  // Fetch slots on load
-  useEffect(() => {
-    fetch(GAS_URL + "?action=count")
-      .then(res => res.json())
-      .then(data => setSlotsFilled(data.slotsFilled || 0))
-      .catch(err => console.error("Error fetching slots:", err));
-  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -99,21 +85,17 @@ export default function RegistrationPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (slotsFilled >= totalSlots) return alert("All slots are filled!");
 
     try {
-      const params = new URLSearchParams({ action: "register", ...formData });
       const response = await fetch(GAS_URL, {
         method: "POST",
-        headers: { "Content-Type": "text/plain;charset=UTF-8" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(formData),  // 👈 send eventName too
       });
 
       const result = await response.json();
 
       if (result.status === "success") {
         setSubmitted(true);
-        setSlotsFilled(prev => prev + 1);
       } else {
         alert("Error: " + (result.message || "Something went wrong"));
       }
@@ -135,30 +117,28 @@ export default function RegistrationPage() {
       {!submitted ? (
         <FormWrapper>
           <Title>Event Registration</Title>
-          <p style={{ textAlign: "center", color: "#00d4ff", fontWeight: "600" }}>
-            Slots Filled: {slotsFilled} / {totalSlots}
-          </p>
-          <ProgressBar>
-            <ProgressFill percentage={(slotsFilled / totalSlots) * 100} />
-          </ProgressBar>
 
           <form onSubmit={handleSubmit}>
             <Label>Name</Label>
             <Input type="text" name="name" value={formData.name} onChange={handleChange} required />
+
             <Label>Email</Label>
             <Input type="email" name="email" value={formData.email} onChange={handleChange} required />
+
             <Label>Gender</Label>
             <Select name="gender" value={formData.gender} onChange={handleChange} required>
               <option value="">Select Gender</option>
               <option value="Male">Male</option>
               <option value="Female">Female</option>
             </Select>
+
             <Label>Degree</Label>
             <Select name="degree" value={formData.degree} onChange={handleChange} required>
               <option value="">Select Degree</option>
               <option value="B.E">B.E</option>
               <option value="B.Tech">B.Tech</option>
             </Select>
+
             <Label>Branch</Label>
             <Select name="branch" value={formData.branch} onChange={handleChange} required>
               <option value="">Select Branch</option>
@@ -167,6 +147,7 @@ export default function RegistrationPage() {
               <option value="CSE">CSE</option>
               <option value="IT">IT</option>
             </Select>
+
             <Label>Year</Label>
             <Select name="year" value={formData.year} onChange={handleChange} required>
               <option value="">Select Year</option>
@@ -175,18 +156,18 @@ export default function RegistrationPage() {
               <option value="III">III</option>
               <option value="IV">IV</option>
             </Select>
+
             <Label>Phone</Label>
             <Input type="tel" name="phone" value={formData.phone} onChange={handleChange} required />
-            <Button type="submit" disabled={slotsFilled >= totalSlots}>
-              {slotsFilled >= totalSlots ? "Slots Full" : "Register"}
-            </Button>
+
+            <Button type="submit">Register</Button>
           </form>
         </FormWrapper>
       ) : (
         <CongratsBox>
           <CongratsTitle>🎉 Congratulations {formData.name}!</CongratsTitle>
           <CongratsText>
-            You have successfully registered on <Eventname>Pinnacle 25</Eventname> for Paperenza.
+            You have successfully registered on <Eventname>Pinnacle 25</Eventname> for <strong>{formData.eventName}</strong>.
           </CongratsText>
         </CongratsBox>
       )}
