@@ -130,9 +130,8 @@ const RegisterButton = styled.button`
   }
 `;
 
-/* 👇 Contact Section Styling */
 const ContactSection = styled.div`
-  margin-top: 10px;
+  margin-top: 0px;
   background: rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(12px);
   border-radius: 16px;
@@ -188,6 +187,7 @@ const EventsPage = () => {
       rules: [
         "Individual / Team (Max Two Students).",
         "Total of four rounds will be conducted.",
+        "Preliminary Round (Round 1) will be held during the lunch break at 12:40 PM in the laboratory. <br/>All participants are requested to be present on time.",
         "Judges decision will be final.",
       ],
       formPath: "/register",

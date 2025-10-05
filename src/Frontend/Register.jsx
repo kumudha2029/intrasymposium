@@ -235,15 +235,17 @@ export default function RegistrationPage() {
               <Input
                 type="text"
                 name="name"
+                placeholder="Paricipant 1 , Participant 2"
                 value={formData.name}
                 onChange={handleChange}
                 required
               />
 
-              <Label>Email</Label>
+              <Label>Email(College Email Only)</Label>
               <Input
                 type="email"
                 name="email"
+                placeholder="Paricipant 1 email , Participant 2 email"
                 value={formData.email}
                 onChange={handleChange}
                 required
