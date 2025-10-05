@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 
-// ----- Flip Animation -----
 const flip = keyframes`
   0% { transform: rotateX(0deg); }
   50% { transform: rotateX(-90deg); }
@@ -60,11 +59,12 @@ const TimeLabel = styled.div`
   margin-top: 4px;
 `;
 
-const CountdownTimer = () => {
+
+const CountdownTimer = ({ onExpire }) => {
   const calculateTimeLeft = () => {
-    const today = new Date();
-    const endDate = new Date("2025-10-02T21:59:59");
-    const diff = endDate - today;
+    const now = new Date();
+    const endDate = new Date("2025-10-06T11:59:59");
+    const diff = endDate - now;
 
     if (diff > 0) {
       return {
@@ -74,18 +74,28 @@ const CountdownTimer = () => {
         seconds: Math.floor((diff / 1000) % 60),
       };
     }
-    return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+    return null;
   };
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setTimeLeft(calculateTimeLeft());
+      const updated = calculateTimeLeft();
+      setTimeLeft(updated);
+
+      if (!updated) {
+        clearInterval(timer);
+        if (onExpire) onExpire(); 
+      }
     }, 1000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [onExpire]);
+
+  if (!timeLeft) {
+    return <h2 style={{ textAlign: "center", color: "red" }}>Registration Closed</h2>;
+  }
 
   return (
     <TimerWrapper>

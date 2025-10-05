@@ -45,12 +45,12 @@ const Section = styled(motion.section)`
   align-items: center;
   scroll-snap-align: start;
   box-sizing: border-box;
-  padding: 0 15px;
-  gap: 4px;
+  padding: 0px;
+  gap: 8px;
 
   @media (max-width: 768px) {
-    padding: 0 8px;
-    gap: 3px;
+    padding: 0px;
+    gap: 10px;
   }
 `;
 
@@ -174,141 +174,157 @@ export default function Home() {
       </VideoBackground>
 
       <PageWrapper>
-        {/* Hero Section */}
-        <Section
-          ref={heroRef}
-          initial="hidden"
-          animate="visible"
-          variants={{
-            hidden: {},
-            visible: { transition: { staggerChildren: 0.2 } },
-          }}
-        >
-          <motion.div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "2px",
-              marginTop: "20px",
-              textAlign: "center",
-            }}
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
-          >
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <GtecLogo src="/gtec.jpeg" alt="GTEC Logo" whileHover={{ scale: 1.05 }} />
-              <HeroTitle>Ganadipathy Tulsi's Jain Engineering College</HeroTitle>
-            </div>
-            <h6
-              style={{
-                color: "#ffffff",
-                fontSize: "0.7rem",
-                margin: "0px",
-                marginLeft: "50px",
-                marginTop: "3px",
-                fontFamily: "Times New Roman, Times, serif",
-              }}
-            >
-              Chittoor Cuddalore Road, Kaniyambadi Vellore - 632102
-            </h6>
-            <h6
-              style={{
-                fontSize: "0.9rem",
-                lineHeight: 1,
-                margin: "10px 0",
-                fontFamily: "Times New Roman, Times, serif",
-                textAlign: "center",
-                color: "#ffe600",
-              }}
-            >
-              The Department of IT, AIDS & CSBS <br />
-              proudly presents
-            </h6>
-          </motion.div>
+<Section
+  ref={heroRef}
+  initial="hidden"
+  animate="visible"
+  variants={{
+    hidden: {},
+    visible: { transition: { staggerChildren: 0.2 } },
+  }}
+>
+  <motion.div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: "2px",
+      marginTop: "0px", // ✅ Removed extra top space
+      textAlign: "center",
+    }}
+    initial={{ opacity: 0, y: -20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 1 }}
+  >
+    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+      <GtecLogo src="/gtec.jpeg" alt="GTEC Logo" whileHover={{ scale: 1.05 }} />
+      <HeroTitle>Ganadipathy Tulsi's Jain Engineering College</HeroTitle>
+    </div>
+    <h6
+      style={{
+        color: "#ffffff",
+        fontSize: "0.7rem",
+        margin: "0px",
+        marginLeft: "50px",
+        marginTop: "3px",
+        fontFamily: "Times New Roman, Times, serif",
+      }}
+    >
+      Chittoor Cuddalore Road, Kaniyambadi Vellore - 632102
+    </h6>
+    <h6
+      style={{
+        fontSize: "0.9rem",
+        lineHeight: 1,
+        margin: "10px 0",
+        fontFamily: "Times New Roman, Times, serif",
+        textAlign: "center",
+        color: "#ffe600",
+      }}
+    >
+      The Department of IT, AIDS & CSBS <br />
+      proudly presents
+    </h6>
+  </motion.div>
 
-          <motion.div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "4px",
-              flexWrap: "wrap",
-              margin: "0px auto",
-              textAlign: "center",
-            }}
-            initial={{ opacity: 0, y: -15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
-          >
-            <HeroSubtitle style={{ fontSize: "1.3rem", margin: "0px" }}>
-              National Level <br /> Technical Symposium
-            </HeroSubtitle>
-            <AnniversaryLogo src="/25year.png" alt="25 Years Celebration" whileHover={{ scale: 1.05 }} />
-          </motion.div>
+  <motion.div
+    style={{
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: "4px",
+      flexWrap: "wrap",
+      margin: "0px auto",
+      textAlign: "center",
+    }}
+    initial={{ opacity: 0, y: -15 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 1 }}
+  >
+    <HeroSubtitle style={{ fontSize: "1.3rem", margin: "0px" }}>
+      National Level <br /> Technical Symposium
+    </HeroSubtitle>
+    <AnniversaryLogo
+      src="/25year.png"
+      alt="25 Years Celebration"
+      whileHover={{ scale: 1.05 }}
+    />
+  </motion.div>
 
-          <HeroSubtitle
-            style={{
-              fontSize: "2.5rem",
-              background: "linear-gradient(45deg, #f9d423, #ff4e50)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              margin: "0px auto 4px auto",
-              lineHeight: 1,
-            }}
-          >
-            Pinnacle 25
-          </HeroSubtitle>
+  <HeroSubtitle
+    style={{
+      fontSize: "2.5rem",
+      background: "linear-gradient(45deg, #f9d423, #ff4e50)",
+      WebkitBackgroundClip: "text",
+      WebkitTextFillColor: "transparent",
+      margin: "0px auto 4px auto",
+      lineHeight: 1,
+    }}
+  >
+    Pinnacle 25
+  </HeroSubtitle>
 
-          <h6
-            style={{
-              color: "white",
-              fontSize: "0.85rem",
-              lineHeight: 1,
-              margin: "0px 0 6px 0",
-              fontFamily: "Times New Roman, Times, serif",
-              textAlign: "center",
-            }}
-          >
-            A Summit of IT, AI & Business System
-          </h6>
+  <h6
+    style={{
+      color: "white",
+      fontSize: "0.85rem",
+      lineHeight: 1,
+      margin: "0px 0 6px 0",
+      fontFamily: "Times New Roman, Times, serif",
+      textAlign: "center",
+    }}
+  >
+    A Summit of IT, AI & Business System
+  </h6>
 
-          <HeroSubtitle
-            style={{
-              fontSize: "1.8rem",
-              color: "#ffd700",
-              textShadow: `
-      0 0 6px #ffae00,
-      0 0 12px #ffd700,
-      0 0 20px #ffea70
-    `,
-              margin: "4px auto",
-              lineHeight: 1.1,
-            }}
-          >
-            Technical Quiz & Photography
-          </HeroSubtitle>
+  <HeroSubtitle
+    style={{
+      fontSize: "1.8rem",
+      color: "#ffd700",
+      textShadow: `
+        0 0 6px #ffae00,
+        0 0 12px #ffd700,
+        0 0 20px #ffea70
+      `,
+      margin: "4px auto",
+      lineHeight: 1.1,
+    }}
+  >
+    Technical Quiz & Photography
+  </HeroSubtitle>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 3 }}>
-            <CountdownTimer />
-          </motion.div>
+  <InfoBox>
+    <p>📅 Date: 06th October 2025</p>
+    <p>⏰ Time: 3:00 PM</p>
+  </InfoBox>
 
-          <InfoBox>
-            <p>📅 Date: 06th October 2025</p>
-            <p>⏰ Time: 3:00 PM </p>
-          </InfoBox>
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 3 }}
+  >
+    <CountdownTimer />
+  </motion.div>
 
-          <motion.div style={{ display: "flex", gap: "10px", marginTop: "8px", flexWrap: "wrap", justifyContent: "center" }}>
-            <HeroButton onClick={scrollToNext} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              Explore Events →
-            </HeroButton>
-            <HeroButton onClick={() => navigate("/Register")} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              Register
-            </HeroButton>
-          </motion.div>
-        </Section>
+  <motion.div
+    style={{
+      display: "flex",
+      gap: "10px",
+      marginTop: "8px",
+      flexWrap: "wrap",
+      justifyContent: "center",
+    }}
+  >
+    <HeroButton
+      onClick={scrollToNext}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+    >
+      Explore Events →
+    </HeroButton>
+  </motion.div>
+</Section>
 
         {/* Event Section */}
         <Section ref={eventRef} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} variants={sectionVariants}>

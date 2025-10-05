@@ -196,7 +196,7 @@ export default function RegistrationPage() {
       const response = await fetch(GAS_URL, {
         method: "POST",
         headers: { "Content-Type": "text/plain;charset=UTF-8" },
-        body: JSON.stringify({ ...formData, eventName, formType: "form1" }),
+        body: JSON.stringify({ ...formData, eventName, formType: "form2" }),
       });
 
       const resultJson = await response.json();

@@ -1,11 +1,11 @@
-// EventsPage.jsx
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
+// --- Styled Components ---
 const PageWrapper = styled.div`
   min-height: 100vh;
-  padding: 40px 20px;
+  padding: 40px 20px 60px; /* 👈 extra bottom space for contact info */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,6 +17,28 @@ const Title = styled.h1`
   margin-bottom: 30px;
   text-align: center;
   font-weight: bold;
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
+`;
+
+const EventList = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 60px; /* 👈 space below grid before contact */
+  padding: 0 20px;
+  box-sizing: border-box;
+  justify-items: center;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 25px;
+    padding: 0 16px;
+  }
 `;
 
 const EventCard = styled.div`
@@ -24,22 +46,39 @@ const EventCard = styled.div`
   backdrop-filter: blur(12px);
   border-radius: 16px;
   padding: 25px;
-  margin: 20px 0;
-  max-width: 600px;
   width: 100%;
+  max-width: 380px;
+  box-sizing: border-box;
   text-align: center;
   color: white;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  }
+
+  @media (max-width: 768px) {
+    max-width: 90%;
+    margin: 0 auto;
+    border-radius: 14px;
+    padding: 22px 18px;
+  }
 `;
 
 const EventName = styled.h2`
   font-size: 1.8rem;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   color: #ffcc80;
 `;
 
-const RulesTitle = styled.h3`
+const SectionTitle = styled.h3`
   font-size: 1.2rem;
+  margin-top: 20px;
   margin-bottom: 10px;
   color: #ffd54f;
 `;
@@ -47,32 +86,39 @@ const RulesTitle = styled.h3`
 const RulesList = styled.ul`
   text-align: left;
   margin: 0 auto 20px;
-  padding: 0 20px;
-  line-height: 1.6;
+  padding: 0 15px;
+  line-height: 1.5;
   list-style-type: disc;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+
+  a {
+    color: #ffcc80;
+    text-decoration: none;
+    font-weight: 500;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 `;
 
 const RuleItem = styled.li`
-  margin-bottom: 6px;
-`;
-
-const SlotInfo = styled.p`
-  font-size: 1rem;
-  font-weight: bold;
-  margin-bottom: 12px;
-  color: ${(props) => (props.full ? "#ff4e50" : "#00e676")};
+  margin-bottom: 8px;
 `;
 
 const RegisterButton = styled.button`
   display: inline-block;
   background: #ff9800;
   color: white;
-  padding: 12px 24px;
+  padding: 12px 28px;
   font-size: 1rem;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   transition: 0.3s;
+  align-self: center;
 
   &:hover {
     background: #e68900;
@@ -84,83 +130,148 @@ const RegisterButton = styled.button`
   }
 `;
 
+/* 👇 Contact Section Styling */
+const ContactSection = styled.div`
+  margin-top: 10px;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 25px 40px;
+  color: #fff;
+  font-size: 1rem;
+  line-height: 1.6;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  max-width: 420px;
+  width: 90%;
+  box-sizing: border-box;
+
+  a {
+    color: #ff9800;
+    text-decoration: none;
+    font-weight: bold;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 20px;
+    width: 65%;
+    font-size: 1rem;
+    border-radius: 14px;
+  }
+`;
+
+// --- Main Component ---
 const EventsPage = () => {
   const navigate = useNavigate();
-  const GAS_URL = "https://script.google.com/macros/s/AKfycbzxqHJfae-G6T-Qq0i1egMxcqBpReHYEmkbDdbSESS4S38nRC89INC5bZfrfeoLwpgf6Q/exec"; 
+  const [isClosed, setIsClosed] = useState(false);
 
-  // Default event setup
-  const [events, setEvents] = useState([
+  const endDate = new Date("2025-10-06T11:59:59");
+
+  useEffect(() => {
+    const checkTime = () => {
+      const now = new Date();
+      setIsClosed(now >= endDate);
+    };
+
+    const interval = setInterval(checkTime, 1000);
+    checkTime();
+    return () => clearInterval(interval);
+  }, [endDate]);
+
+  const [events] = useState([
     {
-      name: "Paper Presentation",
+      name: "Technical Quiz",
       rules: [
-        "Maximum 2 participants per team",
-        "Time limit: 8 minutes + 2 minutes Q&A",
-        "Plagiarism is strictly prohibited",
-        "Bring your presentation in PPT/PDF format",
+        "Individual / Team (Max Two Students).",
+        "Total of four rounds will be conducted.",
+        "Judges decision will be final.",
       ],
-      totalSlots: 15,
-      slotsFilled: 0,
+      formPath: "/register",
     },
     {
-      name: "Coding Contest",
+      name: "Photography",
       rules: [
-        "Individual participation only",
-        "3 problem statements, 90 minutes duration",
-        "Use of internet strictly prohibited",
-        "Any programming language is allowed",
+        // Themes
+        "Beyond Books and Bells",
+        "Campus Chronicles",
+        "Light and Learning",
+        "Tech meets Tradition",
+        "The Geometry of Growth",
+        // Rules
+        "Individual participants only.",
+        "Photos can be taken using any camera or mobile phone.",
+        "File format: JPEG / PNG / JPG.",
+        "File name format: ParticipantName_Department_Theme.(jpg/png/jpeg).",
+        "Participants must register before the deadline.",
+        "Late entries will not be accepted.",
+        `Photo must be submitted through email <a href='mailto:pinnacle@gtec.ac.in'>pinnacle@gtec.ac.in</a>.`,
+        "Minimal editing (brightness, contrast, cropping) is allowed; heavy editing or AI-generated images are not permitted.",
+        "Watermarks, borders, or logos are not allowed.",
+        "The photograph must be original and taken by the participant.",
+        "No copyrighted or downloaded images are allowed.",
+        "The photograph should be attached with GPS location & time details.",
       ],
-      totalSlots: 15,
-      slotsFilled: 0,
+      formPath: "/register2",
     },
   ]);
 
-  // Fetch slots data from Google Sheets
-  useEffect(() => {
-    fetch(GAS_URL + "?action=getSlots")
-      .then((res) => res.json())
-      .then((data) => {
-        // Data should be something like: { "Paper Presentation": 10, "Coding Contest": 7 }
-        setEvents((prevEvents) =>
-          prevEvents.map((event) => ({
-            ...event,
-            slotsFilled: data[event.name] || 0,
-          }))
-        );
-      })
-      .catch((err) => console.error("Error fetching slots:", err));
-  }, []);
-
-  const handleRegister = (eventName) => {
-    navigate("/register", { state: { eventName } });
+  const handleRegister = (event) => {
+    if (!isClosed)
+      navigate(event.formPath, { state: { eventName: event.name } });
   };
 
   return (
     <PageWrapper>
       <Title>Our Events</Title>
-      {events.map((event, index) => {
-        const isFull = event.slotsFilled >= event.totalSlots;
-        return (
+
+      <EventList>
+        {events.map((event, index) => (
           <EventCard key={index}>
-            <EventName>{event.name}</EventName>
-            <RulesTitle>Rules:</RulesTitle>
-            <RulesList>
-              {event.rules.map((rule, i) => (
-                <RuleItem key={i}>{rule}</RuleItem>
-              ))}
-            </RulesList>
+            <div>
+              <EventName>{event.name}</EventName>
 
-            {/* Slot Info */}
-            <SlotInfo full={isFull}>
-              Slots Filled: {event.slotsFilled} / {event.totalSlots}
-            </SlotInfo>
+              {event.name === "Photography" && (
+                <>
+                  <SectionTitle>Theme :</SectionTitle>
+                  <RulesList>
+                    {event.rules.slice(0, 5).map((theme, i) => (
+                      <RuleItem key={i}>{theme}</RuleItem>
+                    ))}
+                  </RulesList>
+                </>
+              )}
 
-            {/* Register Button */}
-            <RegisterButton onClick={() => handleRegister(event.name)} disabled={isFull}>
-              {isFull ? "Slots Full" : "Register"}
+              <SectionTitle>Rules :</SectionTitle>
+              <RulesList>
+                {(event.name === "Photography"
+                  ? event.rules.slice(5)
+                  : event.rules
+                ).map((rule, i) => (
+                  <RuleItem key={i} dangerouslySetInnerHTML={{ __html: rule }} />
+                ))}
+              </RulesList>
+            </div>
+
+            <RegisterButton
+              onClick={() => handleRegister(event)}
+              disabled={isClosed}
+            >
+              {isClosed ? "Registration Closed" : "Register"}
             </RegisterButton>
           </EventCard>
-        );
-      })}
+        ))}
+      </EventList>
+
+      {/* 👇 Contact Section */}
+      <ContactSection>
+        <p>For any queries, contact :</p>
+        <p>Dinesh K R</p>
+        <p>📞 +91 99447 94910</p>
+      </ContactSection>
     </PageWrapper>
   );
 };
