@@ -164,10 +164,10 @@ const CongratsText = styled.p`
 export default function RegistrationPage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const eventName = location.state?.eventName || "General";
+  const eventName = location.state?.eventName || "Coding & Debugging";
 
   const GAS_URL =
-    "https://script.google.com/macros/s/AKfycbzoeP4bnD3BCDuq-cjN-fFOCgEshmKjZs1Sx4tx94nwlO2Yu45232e2gMi6KOHdlBMq/exec";
+    "https://script.google.com/macros/s/AKfycbys6fGraE2nizqul2c6Kj3H6PXVpPcLqA8Vh98umDTqPMnIFKN5BF80x7vZvvoz2ETQ/exec";
 
   const [formData, setFormData] = useState({
     name: "",
@@ -235,7 +235,7 @@ export default function RegistrationPage() {
               <Input
                 type="text"
                 name="name"
-                placeholder="Paricipant 1 , Participant 2"
+                placeholder="Participant 1 , Participant 2"
                 value={formData.name}
                 onChange={handleChange}
                 required
