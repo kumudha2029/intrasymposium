@@ -138,7 +138,7 @@ const EventsPage = () => {
   const navigate = useNavigate();
   const [isClosed, setIsClosed] = useState(false);
 
-  const endDate = new Date("2025-10-07T11:29:59");
+  const endDate = new Date("2025-10-07T12:59:59");
 
   useEffect(() => {
     const checkTime = () => {
