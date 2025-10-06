@@ -249,6 +249,7 @@ export default function RegistrationPage() {
                 value={formData.email}
                 onChange={handleChange}
                 required
+                multiple
               />
 
               <Label>Gender</Label>
