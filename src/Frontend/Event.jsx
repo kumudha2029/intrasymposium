@@ -101,7 +101,7 @@ const RegisterButton = styled.button`
 `;
 
 const ContactSection = styled.div`
-  margin-top: 40px;
+  margin-top: 30px;
   background: rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(12px);
   border-radius: 16px;
@@ -126,8 +126,8 @@ const ContactSection = styled.div`
   }
 
   @media (max-width: 768px) {
-    padding: 20px;
-    width: 65%;
+    padding: 0px;
+    width: 95%;
     font-size: 1rem;
     border-radius: 14px;
   }
@@ -138,7 +138,7 @@ const EventsPage = () => {
   const navigate = useNavigate();
   const [isClosed, setIsClosed] = useState(false);
 
-  const endDate = new Date("2025-10-07T11:59:59");
+  const endDate = new Date("2025-10-07T11:29:59");
 
   useEffect(() => {
     const checkTime = () => {
@@ -156,8 +156,12 @@ const EventsPage = () => {
     rules: [
       "Individual / Team (Max Two Students).",
       "Total of Three rounds will be conducted.",
-      "Preliminary Round (Round 1) will be held during the lunch break at 12:40 PM in the laboratory. All participants are requested to be present on time.",
-      "Judges' decision will be final.",
+      <>
+    The event will be conducted at 3:00 PM.<br />
+    All participants must be present on time.
+  </>,
+       "Judges' decision will be final.",
+
     ],
     formPath: "/register",
   };
@@ -185,12 +189,11 @@ const EventsPage = () => {
           {isClosed ? "Registration Closed" : "Register"}
         </RegisterButton>
       </EventCard>
-
-      <ContactSection>
-        <p>For any queries, contact :</p>
-        <p>Dinesh K R</p>
-        <p>📞 +91 99447 94910</p>
-      </ContactSection>
+<ContactSection>
+  <p>For any queries, contact:</p>
+  <p>Dinesh K R - 📞99447 94910</p>
+  <p>JayaPrasanth - 📞93616 56105</p>
+</ContactSection>
     </PageWrapper>
   );
 };

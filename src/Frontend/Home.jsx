@@ -289,7 +289,7 @@ export default function Home() {
         </HeroSubtitle>
 
         <InfoBox>
-          <p>📅 Date: 06th October 2025</p>
+          <p>📅 Date: 07th October 2025</p>
           <p>⏰ Time: 3:00 PM</p>
         </InfoBox>
 
