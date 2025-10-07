@@ -318,14 +318,6 @@ export default function Home() {
           >
             Explore Events ↓
           </HeroButton>
-
-          <HeroButton
-            onClick={() => navigate("/register")}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Register Now →
-          </HeroButton>
         </motion.div>
       </Section>
 
