@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 // --- Styled Components ---
 const PageWrapper = styled.div`
   min-height: 100vh;
-  padding: 40px 20px 60px;
+  padding: 40px 20px 60px; /* 👈 extra bottom space for contact info */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,13 +23,31 @@ const Title = styled.h1`
   }
 `;
 
+const EventList = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 60px; /* 👈 space below grid before contact */
+  padding: 0 20px;
+  box-sizing: border-box;
+  justify-items: center;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 25px;
+    padding: 0 16px;
+  }
+`;
+
 const EventCard = styled.div`
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(12px);
   border-radius: 16px;
   padding: 25px;
   width: 100%;
-  max-width: 400px;
+  max-width: 380px;
   box-sizing: border-box;
   text-align: center;
   color: white;
@@ -45,7 +63,9 @@ const EventCard = styled.div`
   }
 
   @media (max-width: 768px) {
-    max-width: 90%;
+    max-width: 97%;
+    margin: 0 auto;
+    border-radius: 14px;
     padding: 22px 18px;
   }
 `;
@@ -72,6 +92,16 @@ const RulesList = styled.ul`
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: normal;
+
+  a {
+    color: #ffcc80;
+    text-decoration: none;
+    font-weight: 500;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 `;
 
 const RuleItem = styled.li`
@@ -101,7 +131,7 @@ const RegisterButton = styled.button`
 `;
 
 const ContactSection = styled.div`
-  margin-top: 30px;
+  margin-top: 0px;
   background: rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(12px);
   border-radius: 16px;
@@ -126,8 +156,8 @@ const ContactSection = styled.div`
   }
 
   @media (max-width: 768px) {
-    padding: 0px;
-    width: 95%;
+    padding: 20px;
+    width: 65%;
     font-size: 1rem;
     border-radius: 14px;
   }
@@ -138,7 +168,7 @@ const EventsPage = () => {
   const navigate = useNavigate();
   const [isClosed, setIsClosed] = useState(false);
 
-  const endDate = new Date("2025-10-07T11:59:59");
+  const endDate = new Date("2025-10-08T11:59:59");
 
   useEffect(() => {
     const checkTime = () => {
@@ -151,49 +181,85 @@ const EventsPage = () => {
     return () => clearInterval(interval);
   }, [endDate]);
 
-  const event = {
-    name: "Coding & Debugging",
+  const [events] = useState([
+  {
+    name: "Tech Talks",
     rules: [
-      "Individual / Team (Max Two Students).",
-      "Total of Three rounds will be conducted.",
-      <>
-    The event will be conducted at 3:00 PM.<br />
-    All participants must be present on time.
-  </>,
-       "Judges' decision will be final.",
-
+      "Time: 3:00 PM – 3:50 PM",
+      "Individual participants only.",
+      "Topics will be technical-related and chosen by participants from a bowl containing slips of paper with different topics.",
+      "Use of mobile phones, internet, or external help during the event is strictly prohibited.",
+      "3 minutes will be given for preparation and 2 minutes to talk.",
+      "Judges decision will be final and binding."
     ],
-    formPath: "/register",
-  };
+    formPath: "/register" 
+  },
+  {
+    name: "Data Maze",
+    rules: [
+      "Time: 3:50 PM – 4:40 PM",
+      "Team (Max 2 members only).",
+      "A dataset will be provided for analysis.",
+      "Participants should extract insights from the provided dataset and answer the related question.",
+    ],
+    formPath: "/register2" 
+  }
+]);
 
-  const handleRegister = () => {
-    if (!isClosed) navigate(event.formPath, { state: { eventName: event.name } });
+
+  const handleRegister = (event) => {
+    if (!isClosed)
+      navigate(event.formPath, { state: { eventName: event.name } });
   };
 
   return (
     <PageWrapper>
-      <Title>Our Event</Title>
+      <Title>Our Events</Title>
 
-      <EventCard>
-        <div>
-          <EventName>{event.name}</EventName>
-          <SectionTitle>Rules :</SectionTitle>
-          <RulesList>
-            {event.rules.map((rule, i) => (
-              <RuleItem key={i}>{rule}</RuleItem>
-            ))}
-          </RulesList>
-        </div>
+      <EventList>
+        {events.map((event, index) => (
+          <EventCard key={index}>
+            <div>
+              <EventName>{event.name}</EventName>
 
-        <RegisterButton onClick={handleRegister} disabled={isClosed}>
-          {isClosed ? "Registration Closed" : "Register"}
-        </RegisterButton>
-      </EventCard>
-<ContactSection>
+              {event.name === "Photography" && (
+                <>
+                  <SectionTitle>Theme :</SectionTitle>
+                  <RulesList>
+                    {event.rules.slice(0, 5).map((theme, i) => (
+                      <RuleItem key={i}>{theme}</RuleItem>
+                    ))}
+                  </RulesList>
+                </>
+              )}
+
+              <SectionTitle>Rules :</SectionTitle>
+              <RulesList>
+                {(event.name === "Photography"
+                  ? event.rules.slice(5)
+                  : event.rules
+                ).map((rule, i) => (
+                  <RuleItem key={i} dangerouslySetInnerHTML={{ __html: rule }} />
+                ))}
+              </RulesList>
+            </div>
+
+            <RegisterButton
+              onClick={() => handleRegister(event)}
+              disabled={isClosed}
+            >
+              {isClosed ? "Registration Closed" : "Register"}
+            </RegisterButton>
+          </EventCard>
+        ))}
+      </EventList>
+
+      <ContactSection>
   <p>For any queries, contact:</p>
   <p>Dinesh K R - 📞99447 94910</p>
   <p>JayaPrasanth - 📞93616 56105</p>
 </ContactSection>
+
     </PageWrapper>
   );
 };

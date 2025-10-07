@@ -285,7 +285,7 @@ export default function Home() {
             lineHeight: 1.1,
           }}
         >
-          Coding & Debugging
+        Tech Talks & Data Maze
         </HeroSubtitle>
 
         <InfoBox>
