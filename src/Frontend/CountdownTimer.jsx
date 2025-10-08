@@ -59,7 +59,6 @@ const TimeLabel = styled.div`
   margin-top: 4px;
 `;
 
-
 const CountdownTimer = ({ onExpire }) => {
   const calculateTimeLeft = () => {
     const now = new Date();
