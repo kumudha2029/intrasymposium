@@ -285,11 +285,11 @@ export default function Home() {
             lineHeight: 1.1,
           }}
         >
-        Tech Talks & Data Maze
+        Crypto Crack
         </HeroSubtitle>
 
         <InfoBox>
-          <p>📅 Date: 07th October 2025</p>
+          <p>📅 Date: 09th October 2025</p>
           <p>⏰ Time: 3:00 PM</p>
         </InfoBox>
 

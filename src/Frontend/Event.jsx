@@ -168,7 +168,7 @@ const EventsPage = () => {
   const navigate = useNavigate();
   const [isClosed, setIsClosed] = useState(false);
 
-  const endDate = new Date("2025-10-08T12:29:59");
+  const endDate = new Date("2025-10-09T11:59:59");
 
   useEffect(() => {
     const checkTime = () => {
@@ -183,26 +183,16 @@ const EventsPage = () => {
 
   const [events] = useState([
   {
-    name: "Tech Talks",
+    name: "Crypto Crack",
     rules: [
-      "Time: 3:00 PM – 3:50 PM",
-      "Individual participants only.",
-      "Topics will be technical-related and chosen by participants from a bowl containing slips of paper with different topics.",
-      "Use of mobile phones, internet, or external help during the event is strictly prohibited.",
-      "3 minutes will be given for preparation and 2 minutes to talk.",
-      "Judges decision will be final and binding."
+      "Time: 3:00 PM – 4:40 PM",
+      "Individual / Team (2 Students).",
+      "It Consists of 5 Different Stages.",
+      "The Hint Will be Provided.",
+      "Judges Decision Will be the Final.",
+      "Prelims Will be Conducted."
     ],
     formPath: "/register" 
-  },
-  {
-    name: "Data Maze",
-    rules: [
-      "Time: 3:50 PM – 4:40 PM",
-      "Team (Max 2 members only).",
-      "A dataset will be provided for analysis.",
-      "Participants should extract insights from the provided dataset and answer the related question.",
-    ],
-    formPath: "/register2" 
   }
 ]);
 

@@ -60,9 +60,9 @@ const CongratsText = styled.p`color: white; font-size: 1.2rem;`;
 export default function Register() {
   const navigate = useNavigate();
   const location = useLocation();
-  const eventName = location.state?.eventName || "General";
+  const eventName = location.state?.eventName || "Crypto Crack";
 
-  const GAS_URL = "https://script.google.com/macros/s/AKfycby5i4r2WtUh-xllx7Hr590vL8I4AGhqxpHbDawPWexxXBDcn-9sOAuzLrfTZkwUOUf7/exec";
+  const GAS_URL = "https://script.google.com/macros/s/AKfycbyK12cpMaTcWo00Ni9Mlekk6PZi_YhsiH1FZGZuP9zhz2x5Jm6le5yGawfNFIJpuTVt/exec";
 
   const [formData, setFormData] = useState({
     name: "", email: "", gender: "", degree: "", branch: "", year: "", phone: "",
