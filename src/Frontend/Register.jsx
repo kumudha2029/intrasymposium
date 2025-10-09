@@ -62,7 +62,7 @@ export default function Register() {
   const location = useLocation();
   const eventName = location.state?.eventName || "Crypto Crack";
 
-  const GAS_URL = "https://script.google.com/macros/s/AKfycbyK12cpMaTcWo00Ni9Mlekk6PZi_YhsiH1FZGZuP9zhz2x5Jm6le5yGawfNFIJpuTVt/exec";
+  const GAS_URL = "https://script.google.com/macros/s/AKfycbz1VN-aH436TUUIbmxDMSnleT-4KQKQTpDu23e9R8VdBaJLwvI28L7BoY-Usw3RSfW2/exec";
 
   const [formData, setFormData] = useState({
     name: "", email: "", gender: "", degree: "", branch: "", year: "", phone: "",

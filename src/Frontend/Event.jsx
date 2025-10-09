@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 // --- Styled Components ---
 const PageWrapper = styled.div`
   min-height: 100vh;
-  padding: 40px 20px 60px; /* 👈 extra bottom space for contact info */
+  padding: 40px 20px 60px; /* Extra bottom space for contact info */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -29,7 +29,7 @@ const EventList = styled.div`
   gap: 30px;
   width: 100%;
   max-width: 1200px;
-  margin: 0 auto 60px; /* 👈 space below grid before contact */
+  margin: 0 auto 60px;
   padding: 0 20px;
   box-sizing: border-box;
   justify-items: center;
@@ -168,7 +168,7 @@ const EventsPage = () => {
   const navigate = useNavigate();
   const [isClosed, setIsClosed] = useState(false);
 
-  const endDate = new Date("2025-10-09T12:29:59");
+  const endDate = new Date("2025-10-10T10:29:59");
 
   useEffect(() => {
     const checkTime = () => {
@@ -181,21 +181,23 @@ const EventsPage = () => {
     return () => clearInterval(interval);
   }, [endDate]);
 
-  const [events] = useState([
+ const [events] = useState([
   {
-    name: "Crypto Crack",
+    name: "Image Generation",
     rules: [
-      "Time: 3:00 PM – 4:40 PM",
-      "Individual / Team (2 Students).",
-      "It Consists of 5 Different Stages.",
-      "The Hint Will be Provided.",
-      "Judges Decision Will be the Final.",
-      "Prelims Will be Conducted."
+      "Dreams in Digital Form",
+      "AI Controlling a Smart City",
+      "Cybersecurity Guardians in Action",
+      "Individual Participants Only",
+      "Event Will be Started After Break [11.00 AM]",
+      "The Topics will be Given for Image Generation",
+      "Image Should be Generated Using ChatGPT, Copilot, Gemini, etc.",
+      'Send your paper to the following <br /> mail id: <a href="mailto:pinnacle@gtec.ac.in"><strong>pinnacle@gtec.ac.in</strong></a>',
+      "The Best Image Generated Using Prompts will be Selected as Winners."
     ],
-    formPath: "/register" 
+    formPath: "/register"
   }
 ]);
-
 
   const handleRegister = (event) => {
     if (!isClosed)
@@ -212,24 +214,22 @@ const EventsPage = () => {
             <div>
               <EventName>{event.name}</EventName>
 
-              {event.name === "Photography" && (
-                <>
-                  <SectionTitle>Theme :</SectionTitle>
-                  <RulesList>
-                    {event.rules.slice(0, 5).map((theme, i) => (
-                      <RuleItem key={i}>{theme}</RuleItem>
-                    ))}
-                  </RulesList>
-                </>
-              )}
+              {/* Themes Section */}
+              <SectionTitle>Theme :</SectionTitle>
+              <RulesList>
+                {event.rules.slice(0, 3).map((theme, i) => (
+                  <RuleItem key={i}>{theme}</RuleItem>
+                ))}
+              </RulesList>
 
+              {/* Rules Section */}
               <SectionTitle>Rules :</SectionTitle>
               <RulesList>
-                {(event.name === "Photography"
-                  ? event.rules.slice(5)
-                  : event.rules
-                ).map((rule, i) => (
-                  <RuleItem key={i} dangerouslySetInnerHTML={{ __html: rule }} />
+                {event.rules.slice(3).map((rule, i) => (
+                  <RuleItem
+                    key={i}
+                    dangerouslySetInnerHTML={{ __html: rule }}
+                  />
                 ))}
               </RulesList>
             </div>
@@ -245,11 +245,10 @@ const EventsPage = () => {
       </EventList>
 
       <ContactSection>
-  <p>For any queries, contact:</p>
-  <p>Dinesh K R - 📞99447 94910</p>
-  <p>JayaPrasanth - 📞93616 56105</p>
-</ContactSection>
-
+        <p>For any queries, contact:</p>
+        <p>Dinesh K R - 📞99447 94910</p>
+        <p>JayaPrasanth - 📞93616 56105</p>
+      </ContactSection>
     </PageWrapper>
   );
 };

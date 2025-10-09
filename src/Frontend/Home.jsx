@@ -285,12 +285,12 @@ export default function Home() {
             lineHeight: 1.1,
           }}
         >
-        Crypto Crack
+        Image Generation
         </HeroSubtitle>
 
         <InfoBox>
-          <p>📅 Date: 09th October 2025</p>
-          <p>⏰ Time: 3:00 PM</p>
+          <p>📅 Date: 10th October 2025</p>
+          <p>⏰ Time: 11:00 AM</p>
         </InfoBox>
 
         <motion.div
