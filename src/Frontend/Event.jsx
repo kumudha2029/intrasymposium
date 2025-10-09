@@ -191,8 +191,8 @@ const EventsPage = () => {
       "Individual Participants Only",
       "Event Will be Started After Break [11.00 AM]",
       "The Topics will be Given for Image Generation",
-      "Image Should be Generated Using ChatGPT, Copilot, Gemini, etc.",
-      'Send your paper to the following <br /> mail id: <a href="mailto:pinnacle@gtec.ac.in"><strong>pinnacle@gtec.ac.in</strong></a>',
+      "Image Should be Generated Using ChatGPT, Copilot, Gemini, etc..(any)",
+      'Send your image to the following <br /> mail id: <a href="mailto:pinnacle@gtec.ac.in"><strong>pinnacle@gtec.ac.in</strong></a> before 12:40 AM',
       "The Best Image Generated Using Prompts will be Selected as Winners."
     ],
     formPath: "/register"
