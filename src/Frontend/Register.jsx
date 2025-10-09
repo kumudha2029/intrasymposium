@@ -114,7 +114,7 @@ export default function Register() {
           <form onSubmit={handleSubmit}>
             <Label>Name</Label>
             <Input name="name" value={formData.name} onChange={handleChange} required />
-            <Label>Email</Label>
+            <Label>Email(College Email Only)</Label>
             <Input type="email" name="email" value={formData.email} onChange={handleChange} required multiple />
             <Label>Gender</Label>
             <Select name="gender" value={formData.gender} onChange={handleChange} required>
