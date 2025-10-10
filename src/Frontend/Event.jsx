@@ -229,7 +229,7 @@ const EventsPage = () => {
               <EventName>{event.name}</EventName>
 
               {/* Theme Section */}
-              <SectionTitle>Theme :</SectionTitle>
+              <SectionTitle>Topic :</SectionTitle>
               <RulesList>
                 {event.rules.slice(0, 11).map((theme, i) => (
                   <RuleItem key={i}>{theme}</RuleItem>
