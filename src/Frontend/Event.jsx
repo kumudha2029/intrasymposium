@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 // --- Styled Components ---
 const PageWrapper = styled.div`
   min-height: 100vh;
-  padding: 40px 20px 60px; /* Extra bottom space for contact info */
+  padding: 40px 20px 60px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -168,7 +168,7 @@ const EventsPage = () => {
   const navigate = useNavigate();
   const [isClosed, setIsClosed] = useState(false);
 
-  const endDate = new Date("2025-10-10T10:29:59");
+  const endDate = new Date("2025-10-13T10:29:59");
 
   useEffect(() => {
     const checkTime = () => {
@@ -181,23 +181,37 @@ const EventsPage = () => {
     return () => clearInterval(interval);
   }, [endDate]);
 
- const [events] = useState([
-  {
-    name: "Image Generation",
-    rules: [
-      "Dreams in Digital Form",
-      "AI Controlling a Smart City",
-      "Cybersecurity Guardians in Action",
-      "Individual Participants Only",
-      "Event Will be Started After Break [11.00 AM]",
-      "The Topics will be Given for Image Generation",
-      "Image Should be Generated Using ChatGPT, Copilot, Gemini, etc..(any)",
-      'Send your image to the following <br /> mail id: <a href="mailto:pinnacle@gtec.ac.in"><strong>pinnacle@gtec.ac.in</strong></a> before 12:40 AM',
-      "The Best Image Generated Using Prompts will be Selected as Winners."
-    ],
-    formPath: "/register"
-  }
-]);
+  const [events] = useState([
+    {
+      name: "Paper Presentation",
+      rules: [
+        "AI / ML",
+        "Cloud and Edge Computing",
+        "Cybersecurity",
+        "Internet of Things (IoT)",
+        "Blockchain",
+        "Quantum Computing",
+        "AR/VR",
+        "Digital Transformation",
+        "Business Intelligence and Analytics",
+        "Digital Sustainability & Ethics",
+        "Future Trends of IT, AI and Business Systemsentation",
+        "Individual / Team (Max Two Students).",
+        "Participants will be shortlisted based on the submitted abstract",
+        "Presentation time: 5 min + <br /> 2 min Q&amp;A",
+        'Send your abstract to the following <br /> mail id: <a href="mailto:pinnacle@gtec.ac.in"><strong>pinnacle@gtec.ac.in</strong></a> before 11th-OCT-2025 at 3:00 PM',
+      ],
+      paperFormat: [
+        "Paper : A4",
+        "Format : IEEE",
+        "Max No of Pages : 10",
+        "Line Spacing : 1.5",
+        "Font Type : Times New Roman",
+        "Font Size : 12",
+      ],
+      formPath: "/register",
+    },
+  ]);
 
   const handleRegister = (event) => {
     if (!isClosed)
@@ -214,10 +228,10 @@ const EventsPage = () => {
             <div>
               <EventName>{event.name}</EventName>
 
-              {/* Themes Section */}
+              {/* Theme Section */}
               <SectionTitle>Theme :</SectionTitle>
               <RulesList>
-                {event.rules.slice(0, 3).map((theme, i) => (
+                {event.rules.slice(0, 11).map((theme, i) => (
                   <RuleItem key={i}>{theme}</RuleItem>
                 ))}
               </RulesList>
@@ -225,11 +239,19 @@ const EventsPage = () => {
               {/* Rules Section */}
               <SectionTitle>Rules :</SectionTitle>
               <RulesList>
-                {event.rules.slice(3).map((rule, i) => (
+                {event.rules.slice(11).map((rule, i) => (
                   <RuleItem
                     key={i}
                     dangerouslySetInnerHTML={{ __html: rule }}
                   />
+                ))}
+              </RulesList>
+
+              {/* Paper Format Section */}
+              <SectionTitle>Paper Format :</SectionTitle>
+              <RulesList>
+                {event.paperFormat.map((format, i) => (
+                  <RuleItem key={i}>{format}</RuleItem>
                 ))}
               </RulesList>
             </div>

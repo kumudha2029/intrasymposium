@@ -285,12 +285,12 @@ export default function Home() {
             lineHeight: 1.1,
           }}
         >
-        Image Generation
+        Paper Presentation
         </HeroSubtitle>
 
         <InfoBox>
-          <p>📅 Date: 10th October 2025</p>
-          <p>⏰ Time: 11:00 AM</p>
+          <p>📅 Date: 13th October 2025</p>
+          <p>⏰ Time: 11:50 AM</p>
         </InfoBox>
 
         <motion.div
@@ -320,6 +320,7 @@ export default function Home() {
           </HeroButton>
         </motion.div>
       </Section>
+
 
       {/* Event Section */}
       <Section
